@@ -1,0 +1,77 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allows columns to wrap on smaller screens */
+}
+
+.column {
+    width: 30%; /* Roughly one-third of the container width */
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Important for padding to not affect width */
+}
+
+.column h2 {
+    margin-top: 0;
+    color: #0056b3; /* A more vibrant heading color */
+}
+
+.column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.column li {
+    margin-bottom: 8px;
+}
+
+.column a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.column a:hover {
+    color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .column {
+        width: 100%; /* Columns take full width on smaller screens */
+    }
+
+    .container {
+        flex-direction: column; /* Stack columns vertically */
+    }
+}
