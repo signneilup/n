@@ -6,7 +6,6 @@
     <title>Start Page</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -79,23 +78,6 @@
                 <ul id="art-market-feed"></ul>
             </div>
         </div>
-
-        <div class="container">
-            <div class="column">
-                <h2>Bay Area Art News</h2>
-                <ul id="bay-area-feed"></ul>
-            </div>
-
-            <div class="column">
-                <h2>Los Angeles Art News</h2>
-                <ul id="la-feed"></ul>
-            </div>
-
-            <div class="column">
-                <h2>New York Art News</h2>
-                <ul id="ny-feed"></ul>
-            </div>
-        </div>
     </main>
 
     <footer>
@@ -112,7 +94,7 @@
       updateDate();
       setInterval(updateDate, 1000 * 60); // Update every minute
 
-      // Generic RSS Fetch Function
+      // Single RSS Feed
       function fetchRSSFeed(url, elementId) {
           fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
               .then(response => response.json())
@@ -135,28 +117,7 @@
               });
       }
 
-      // Initialize Feeds
-      function initializeFeeds() {
-        // Art Market Feeds
-        fetchRSSFeed('https://artforecast.substack.com/feed', 'art-market-feed');
-
-        // Bay Area Art News feeds
-        fetchRSSFeed('https://www.sfarts.org/rss.xml', 'bay-area-feed');
-        fetchRSSFeed('https://datebook.sfchronicle.com/category/art-exhibits/feed/', 'bay-area-feed');
-        fetchRSSFeed('http://openspace.sfmoma.org/feed/', 'bay-area-feed');
-
-        // Los Angeles Art News feeds
-        fetchRSSFeed('https://laartnews.com/blog?format=rss', 'la-feed');
-        fetchRSSFeed('https://www.lacma.org/feed', 'la-feed');
-        fetchRSSFeed('https://artillerymag.com/feed/', 'la-feed');
-
-        // New York Art News feeds
-        fetchRSSFeed('https://feeds2.feedburner.com/AoArtO', 'ny-feed');
-        fetchRSSFeed('https://streetartnyc.org/feed', 'ny-feed');
-        fetchRSSFeed('https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml', 'ny-feed');
-      }
-
-      // Art News Aggregator - Multiple Feeds
+      // Art News Aggregator
       const artNewsFeeds = [
         'https://www.artnews.com/feed/',
         'https://www.artforum.com/index.rss',
@@ -170,13 +131,28 @@
         'https://www.apollo-magazine.com/feed/'
       ];
 
+      // World News Feeds
       const worldNewsFeeds = [
         'http://feeds.bbci.co.uk/news/world/rss.xml',
         'https://www.npr.org/rss/rss.php?id=1004', // NPR World News
         'https://www.aljazeera.com/xml/rss/all.xml'  // Al Jazeera
       ];
 
-      // Fetch and Display Multiple Feeds
+    const artMarketNewsFeeds = [
+        'https://news.artnet.com/rss',  // Artnet News
+        'https://www.theartnewspaper.com/feeds/rss',  // The Art Newspaper
+        'https://hyperallergic.com/feed/',  // Hyperallergic
+        'https://artlyst.com/feed/',  // Artlyst
+        'https://fadmagazine.com/feed',  // FAD Magazine
+        'https://www.mutualart.com/rss/news',  // MutualArt
+        'https://www.apollo-magazine.com/feed/',  // Apollo Magazine
+        'https://www.art-agenda.com/syndication.rss',  // Art-Agenda
+        'https://www.art-critique.com/category/news/feed/',  // Art Critique
+        'https://www.aestheticamagazine.com/feed/'  // Aesthetica Magazine
+    ];
+
+
+      // Multiple RSS Feeds
       function fetchMultipleFeeds(feeds, elementId) {
         const fetchPromises = feeds.map(url =>
           fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
@@ -199,62 +175,33 @@
           .then(results => {
             const allItems = results.flat();
             const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            displayFeedItems(sortedItems.slice(0, 50), elementId); // Display top 50
+            displayFeedItems(sortedItems.slice(0, 10), elementId); // Display top 10
           });
       }
 
-      function displayFeedItems(items, containerId) {
+    function displayFeedItems(items, containerId) {
         const container = document.getElementById(containerId);
         container.innerHTML = ''; // Clear existing content
 
         if (items.length === 0) {
-          container.innerHTML = '<li>No items to display.</li>';
-          return;
+            container.innerHTML = '<li>No items to display.</li>';
+            return;
         }
 
         items.forEach(item => {
-          const article = document.createElement('li');
-          article.innerHTML = `
-            <a href="${item.link}" target="_blank">${item.title}</a>
-          `;
-          container.appendChild(article);
+            const article = document.createElement('li');
+            article.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+            container.appendChild(article);
         });
-      }
-
-        // Modified to load only the 5 most recent items
-        function displayLimitedFeedItems(items, containerId, limit = 5) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Clear existing content
-
-            if (items.length === 0) {
-                container.innerHTML = '<li>No items to display.</li>';
-                return;
-            }
-
-            // Limiting the number of items to the specified limit
-            const limitedItems = items.slice(0, limit);
-
-            limitedItems.forEach(item => {
-                const article = document.createElement('li');
-                article.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-                container.appendChild(article);
-            });
-        }
-
+    }
 
       // Load everything
       document.addEventListener('DOMContentLoaded', function() {
           updateDate();
-          
-          // Aggregate Art News
-          fetchMultipleFeeds(artNewsFeeds, 'art-news-feed');
 
-          // Aggregate World News
-          fetchMultipleFeeds(worldNewsFeeds, 'world-news-feed');
-
-
-          // Load other feeds
-          initializeFeeds(); // Call the function to load the other feeds
+        fetchMultipleFeeds(artNewsFeeds, 'art-news-feed');
+        fetchMultipleFeeds(worldNewsFeeds, 'world-news-feed');
+        fetchMultipleFeeds(artMarketNewsFeeds, 'art-market-feed');
       });
     </script>
 </body>
