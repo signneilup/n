@@ -101,18 +101,18 @@ main {
 
 
  .rss-item {
-        margin-bottom: 14px; border-bottom: solid 2px #000000; text-align: left; padding-bottom: 8px;
+        margin-bottom: 14px; border-bottom: solid 2px #000000; text-align: left; padding-bottom: 8px; overflow: hidden;
     }
     .rss-item a {
-        color: #444444;
-       text-decoration: none; margin-bottom: 4px;
+        color: #666666;
+       text-decoration: none; margin-bottom: 6px;
             display: block;
     }
     .rss-item a:hover {
         text-decoration: none;
     }
     .rss-source {
-        color: #61afef;
+        color: #61afef !important;
         font-size: 0.8em;
         margin-left: 5px;
     }
