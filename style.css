@@ -77,6 +77,19 @@ main {
     color: #61afef;
 }
 
+.column ul li {
+    display: flex;
+    align-items: center; /* Center icons vertically */
+}
+
+.column ul li i {
+    margin-right: 10px; /* Space between the icon and text */
+}
+
+
+
+
+
 /* Footer */
 footer {
     background-color: #101010; text-align: center;
