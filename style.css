@@ -101,7 +101,7 @@ main {
 
 
  .rss-item {
-        margin-bottom: 10px;
+        margin-bottom: 14px; border-bottom: solid 1px #444444; 
     }
     .rss-item a {
         color: #444444;
@@ -115,7 +115,11 @@ main {
         font-size: 0.8em;
         margin-left: 5px;
     }
-
+  .rss-source a {
+        color: #61afef;
+        font-size: 0.8em; text-decoration: none;
+        margin-left: 5px;
+    }
 
 
 /* Footer */
