@@ -81,8 +81,25 @@
             </ul>
         </div>
     </div>
-</main>
 
+
+
+<div class="feedcontainer">
+        <div class="column">
+            <h2>Art News</h2>
+            <ul id="art-news-feed"></ul>
+        </div>
+
+        <div class="column">
+            <h2>World News</h2>
+            <ul id="world-news-feed"></ul>
+        </div>
+
+        <div class="column">
+            <h2>Art Market News</h2>
+            <ul id="art-market-feed"></ul>
+        </div>
+    </div>
 
 
 
@@ -109,6 +126,33 @@ function updateDate() {
 }
 updateDate();
 setInterval(updateDate, 1000 * 60); // Update every minute
+
+
+
+
+
+
+
+function fetchRSSFeed(url, elementId) {
+    fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
+        .then(response => response.json())
+        .then(data => {
+            const ul = document.getElementById(elementId);
+            data.items.slice(0, 5).forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+                ul.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching RSS feed:', error));
+}
+
+// Fetch RSS feeds
+fetchRSSFeed('https://theartwolf.com/art-rss/', 'art-news-feed');
+fetchRSSFeed('http://feeds.bbci.co.uk/news/world/rss.xml', 'world-news-feed');
+fetchRSSFeed('https://artforecast.substack.com/feed', 'art-market-feed');
+
+
 
 
 
