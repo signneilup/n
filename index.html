@@ -133,7 +133,7 @@
             const sourceName = getHostname(item.link); // Use the helper function
             article.innerHTML = `
                 <a href="${item.link}" target="_blank">${item.title}</a>
-                <a href="${item.link}" target="_blank" class="rss-source">- ${sourceName}</a>
+                <a href="${item.link}" target="_blank" class="rss-source">${sourceName}</a>
             `;
             container.appendChild(article);
         });
