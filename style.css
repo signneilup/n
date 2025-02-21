@@ -101,11 +101,12 @@ main {
 
 
  .rss-item {
-        margin-bottom: 14px; border-bottom: solid 1px #444444; 
+        margin-bottom: 14px; border-bottom: solid 1px #444444; text-align: left;
     }
     .rss-item a {
         color: #444444;
-        text-decoration: none;
+       text-decoration: none;
+            display: block;
     }
     .rss-item a:hover {
         text-decoration: underline;
@@ -116,10 +117,22 @@ main {
         margin-left: 5px;
     }
   .rss-source a {
-        color: #61afef;
+      
         font-size: 0.8em; text-decoration: none;
-        margin-left: 5px;
+        margin-left: 5px;   color: #61afef;
+            font-size: 0.8em;
+            display: block; /* Put on its own line */
+            margin-top: 5px; /* Space from headline */
     }
+
+
+
+ 
+
+
+
+
+
 
 
 /* Footer */
