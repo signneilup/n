@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     background-color: #101010;
-    color: #dcdcdc;
+    color: #545454;
     font-family: 'Varela Round', sans-serif;
     line-height: 1.6;
     margin: 0;
@@ -23,14 +23,14 @@ a:hover {
 /* Header */
 header {
     background-color: #101010;
-    color: #555555;
+    color: #545454;
     padding: 20px 0;
     text-align: center;
 }
 
 header h1 {
     margin: 0;
-    font-weight: 200;
+    font-weight: 200; 
     font-size: 2.8rem;
 }
 
