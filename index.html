@@ -74,21 +74,28 @@ setInterval(updateDate, 1000 * 60); // Update every minute
 // Weather Conditions
 // Replace 'YOUR_API_KEY' with your actual WeatherAPI key
 
-// Weather Conditions
 function fetchWeather() {
-  const apiKey = '48a74753bf80403ca3c41641252102'; // Replace with your actual API key
-  const location = 'San Francisco'; // Or use geolocation to get user's location
-  const apiURL = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
+    const apiKey = '48a74753bf80403ca3c41641252102'; // Replace with your actual API key
+    const location = 'San Francisco'; // Or use geolocation to get user's location
+    const apiURL = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`;
 
-  fetch(apiURL)
-    .then(response => response.json())
-    .then(data => displayWeather(data))
-    .catch(error => {
-      console.error('Error fetching weather:', error);
-      document.getElementById('weather-conditions').textContent = 'Weather data unavailable';
-    });
+    fetch(apiURL)
+        .then(response => response.json())
+        .then(data => {
+            const temp = data.current.temp_c;
+            const condition = data.current.condition.text;
+            const icon = data.current.condition.icon;
+            
+            document.getElementById('weather-conditions').innerHTML = `
+                <img src="${icon}" alt="${condition}" />
+                <span>${condition}, ${temp}°C</span>
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching weather:', error);
+            document.getElementById('weather-conditions').textContent = 'Weather data unavailable';
+        });
 }
-
 
 
 
