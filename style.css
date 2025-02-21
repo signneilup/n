@@ -98,6 +98,26 @@ main {
     margin-right: 10px;
 }
 
+
+
+ .rss-item {
+        margin-bottom: 10px;
+    }
+    .rss-item a {
+        color: #444444;
+        text-decoration: none;
+    }
+    .rss-item a:hover {
+        text-decoration: underline;
+    }
+    .rss-source {
+        color: #61afef;
+        font-size: 0.8em;
+        margin-left: 5px;
+    }
+
+
+
 /* Footer */
 footer {
     background-color: #101010;
