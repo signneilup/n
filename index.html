@@ -13,10 +13,12 @@
         }
         .rss-item {
             margin-bottom: 10px;
+            text-align: center; /* Center items */
         }
         .rss-item a {
             color: #444444;
             text-decoration: none;
+            display: block; /* Make link take up full width */
         }
         .rss-item a:hover {
             text-decoration: underline;
@@ -24,7 +26,8 @@
         .rss-source {
             color: #61afef;
             font-size: 0.8em;
-            margin-left: 5px;
+            display: block; /* Put on its own line */
+            margin-top: 5px; /* Space from headline */
         }
     </style>
 </head>
@@ -120,27 +123,38 @@
               });
       }
 
+        // Helper function to extract hostname from a URL
+        function getHostname(url) {
+            try {
+                const urlObj = new URL(url);
+                return urlObj.hostname.replace('www.', '');
+            } catch (e) {
+                console.error('Error parsing URL:', url, e);
+                return 'Unknown Source';
+            }
+        }
+
       // Helper function to display feed items with styled headlines and source names
       function displayFeedItems(items, containerId) {
-          const container = document.getElementById(containerId);
-          container.innerHTML = ''; // Clear existing content
+        const container = document.getElementById(containerId);
+        container.innerHTML = ''; // Clear existing content
 
-          if (items.length === 0) {
-              container.innerHTML = '<li>No items to display.</li>';
-              return;
-          }
+        if (items.length === 0) {
+            container.innerHTML = '<li>No items to display.</li>';
+            return;
+        }
 
-          items.forEach(item => {
-              const article = document.createElement('li');
-              article.className = 'rss-item';
-              const sourceName = new URL(item.link).hostname.replace('www.', '');
-              article.innerHTML = `
-                  <a href="${item.link}" target="_blank">${item.title}</a>
-                  <span class="rss-source">${sourceName}</span>
-              `;
-              container.appendChild(article);
-          });
-      }
+        items.forEach(item => {
+            const article = document.createElement('li');
+            article.className = 'rss-item';
+            const sourceName = getHostname(item.link); // Use the helper function
+            article.innerHTML = `
+                <a href="${item.link}" target="_blank">${item.title}</a>
+                <a href="${item.link}" target="_blank" class="rss-source">- ${sourceName}</a>
+            `;
+            container.appendChild(article);
+        });
+    }
 
       // Define RSS feed URLs
       const artNewsFeeds = [
