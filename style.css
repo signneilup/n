@@ -119,7 +119,7 @@ main {
   .rss-source a {
       
         font-size: 0.8em; text-decoration: none;
-        margin-left: 5px;   color: #61afef; text-align: center;
+        margin-left: 5px;  color: #61afef !important; text-align: left;
             font-size: 0.8em;
             display: block; /* Put on its own line */
             margin-top: 5px; /* Space from headline */
