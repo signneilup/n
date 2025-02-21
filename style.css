@@ -1,8 +1,8 @@
 /* General Styles */
 body {
-    background-color: #101010; /* Dark background */
-    color: #dcdcdc; /* Light text color */
-    font-family: 'Varela Round', sans-serif; /* Use Varela Round */
+    background-color: #101010;
+    color: #dcdcdc;
+    font-family: 'Varela Round', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
 a {
     color: #61afef;
     text-decoration: none;
-    font-weight: bold; /* Make links stand out */
+    font-weight: 300;
     transition: color 0.3s ease;
 }
 
@@ -24,18 +24,20 @@ a:hover {
 header {
     background-color: #101010;
     color: #555555;
-    padding: 20px 0;font-weight: 400; 
+    padding: 20px 0;
     text-align: center;
 }
 
 header h1 {
-    margin: 0;font-weight: 200; 
-    font-size: 2.8rem; /* Adjust size for better readability */
+    margin: 0;
+    font-weight: 200;
+    font-size: 2.8rem;
 }
 
 header p {
-    margin-top: 10px;font-weight: 400;
-    font-size: 1rem; /* Smaller subtitle text */
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 1rem;
 }
 
 /* Main Content */
@@ -58,9 +60,12 @@ main {
     box-sizing: border-box;
 }
 
-.column h2 { font-weight: 400;
-    color: #000000;
-    margin-top: 0;  font-size: 0.8rem; line-height: 0.6rem;
+.column h2 {
+    font-weight: 400;
+    color: #61afef;
+    margin-top: 0;
+    font-size: 1rem;
+    line-height: 1.2;
 }
 
 .column ul {
@@ -76,11 +81,11 @@ main {
 
 .column ul li a {
     display: flex;
-    align-items: center; font-weight: 300;
+    align-items: center;
 }
 
 .column ul li i {
-    width: 20px; /* Set a fixed width for the icon */
+    width: 20px;
     margin-right: 10px;
     text-align: center;
 }
@@ -89,16 +94,44 @@ main {
 .column ul li a::before {
     content: '';
     display: inline-block;
-    width: 20px; /* Same width as icons */
+    width: 20px;
     margin-right: 10px;
 }
 
-
-
-
-
-
 /* Footer */
 footer {
-    background-color: #101010; text-align: center;
+    background-color: #101010;
     color: #333333;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .column {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .column h2 {
+        font-size: 0.9rem;
+    }
+
+    .column ul li a {
+        font-size: 0.8rem;
+    }
+}
