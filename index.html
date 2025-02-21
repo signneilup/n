@@ -62,25 +62,34 @@
     </footer>
 
     <script>
-        // Current Date
-        function updateDate() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
-        }
-        updateDate();
-        setInterval(updateDate, 1000 * 60); // Update every minute
+      // Current Date
+function updateDate() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+}
+updateDate();
+setInterval(updateDate, 1000 * 60); // Update every minute
 
-        // Weather Conditions (placeholder - you'll need to use a weather API for real data)
-        document.getElementById('weather-conditions').textContent = 'Weather data unavailable';
+// Weather Conditions
+const apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
+const city = 'YourCity'; // Replace with your desired city
 
-        // To get real weather data, you'd need to use a weather API. For example:
-        // fetch('https://api.openweathermap.org/data/2.5/weather?q=YourCity&appid=YourAPIKey')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         document.getElementById('weather-conditions').textContent = `${data.weather[0].main}, ${data.main.temp}°C`;
-        //     })
-        //     .catch(error => console.error('Error fetching weather:', error));
+function fetchWeather() {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+        .then(response => response.json())
+        .then(data => {
+            const weatherDescription = data.weather[0].description;
+            const temperature = Math.round(data.main.temp);
+            document.getElementById('weather-conditions').textContent = `${weatherDescription}, ${temperature}°C`;
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            document.getElementById('weather-conditions').textContent = 'Weather data unavailable';
+        });
+}
+
+fetchWeather();
     </script>
 </body>
 </html>
