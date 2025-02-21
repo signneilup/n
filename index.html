@@ -167,7 +167,7 @@ function fetchRSSFeed(url, elementId) {
 }
 
 // Fetch RSS feeds
-fetchRSSFeed('https://theartwolf.com/feed/gn', 'art-news-feed');
+
 fetchRSSFeed('http://feeds.bbci.co.uk/news/world/rss.xml', 'world-news-feed');
 fetchRSSFeed('https://artforecast.substack.com/feed', 'art-market-feed');
 
@@ -199,6 +199,52 @@ fetchRSSFeed('https://artillerymag.com/feed/', 'la-feed');
 fetchRSSFeed('https://feeds2.feedburner.com/AoArtO', 'ny-feed');
 fetchRSSFeed('https://streetartnyc.org/feed', 'ny-feed');
 fetchRSSFeed('https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml', 'ny-feed');
+
+
+
+const feeds = [
+  'https://www.artnews.com/feed/',
+  'https://www.artforum.com/index.rss',
+  'https://www.artsy.net/rss/news',
+  'http://fadmagazine.com/feed',
+  'https://www.mutualart.com/rss/news',
+  'https://www.artlyst.com/feed/',
+  'https://www.widewalls.ch/feed/',
+  'http://www.blouinartinfo.com/rss/index',
+  'https://www.theartnewspaper.com/rss',
+  'https://www.apollo-magazine.com/feed/'
+];
+
+function fetchRSSFeed(url) {
+  return fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
+    .then(response => response.json())
+    .then(data => data.items)
+    .catch(error => {
+      console.error('Error fetching RSS feed:', error);
+      return [];
+    });
+}
+
+function displayFeedItems(items) {
+  const container = document.getElementById('art-news-feed');
+  items.forEach(item => {
+    const article = document.createElement('article');
+    article.innerHTML = `
+      <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+      <p>${item.pubDate}</p>
+      <p>${item.description}</p>
+    `;
+    container.appendChild(article);
+  });
+}
+
+Promise.all(feeds.map(fetchRSSFeed))
+  .then(results => {
+    const allItems = results.flat();
+    const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    displayFeedItems(sortedItems.slice(0, 50)); // Display the 50 most recent items
+  });
+
 
 
 
