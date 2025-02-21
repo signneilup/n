@@ -63,28 +63,36 @@ main {
     margin-top: 0;
 }
 
-/* List Styles */
 .column ul {
     list-style-type: none;
-    padding-left: 0; /* Remove default padding */
-}
-
-.column li {
-    margin-bottom: 10px;
-}
-
-.column a {font-weight: 400;
-    color: #61afef;
+    padding-left: 0;
 }
 
 .column ul li {
     display: flex;
-    align-items: center; /* Center icons vertically */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.column ul li a {
+    display: flex;
+    align-items: center;
 }
 
 .column ul li i {
-    margin-right: 10px; /* Space between the icon and text */
+    width: 20px; /* Set a fixed width for the icon */
+    margin-right: 10px;
+    text-align: center;
 }
+
+/* For links without icons */
+.column ul li a::before {
+    content: '';
+    display: inline-block;
+    width: 20px; /* Same width as icons */
+    margin-right: 10px;
+}
+
 
 
 
