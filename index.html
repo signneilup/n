@@ -11,6 +11,21 @@
         body {
             font-family: 'Varela', sans-serif;
         }
+        .rss-item {
+            margin-bottom: 10px;
+        }
+        .rss-item a {
+            color: #444444;
+            text-decoration: none;
+        }
+        .rss-item a:hover {
+            text-decoration: underline;
+        }
+        .rss-source {
+            color: #61afef;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -92,50 +107,59 @@
           document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
       }
       updateDate();
-      setInterval(updateDate, 1000 * 60); // Update every minute
+      setInterval(updateDate, 1000 * 60);
 
-      // Single RSS Feed
-      function fetchRSSFeed(url, elementId) {
-          fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
+      // Helper function to fetch and parse RSS feeds using rss2json API
+      function fetchRSSFeed(url) {
+          return fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
               .then(response => response.json())
-              .then(data => {
-                  const ul = document.getElementById(elementId);
-                  if (data && data.items) {
-                      data.items.slice(0, 5).forEach(item => {
-                          const li = document.createElement('li');
-                          li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-                          ul.appendChild(li);
-                      });
-                  } else {
-                      ul.innerHTML = '<li>Failed to load feed.</li>';
-                  }
-              })
+              .then(data => data.items || [])
               .catch(error => {
                   console.error('Error fetching RSS feed:', error);
-                  const ul = document.getElementById(elementId); // Ensure we get the UL element
-                  ul.innerHTML = '<li>Failed to load feed.</li>'; // Provide user feedback
+                  return [];
               });
       }
 
-      // Art News Aggregator
+      // Helper function to display feed items with styled headlines and source names
+      function displayFeedItems(items, containerId) {
+          const container = document.getElementById(containerId);
+          container.innerHTML = ''; // Clear existing content
+
+          if (items.length === 0) {
+              container.innerHTML = '<li>No items to display.</li>';
+              return;
+          }
+
+          items.forEach(item => {
+              const article = document.createElement('li');
+              article.className = 'rss-item';
+              const sourceName = new URL(item.link).hostname.replace('www.', '');
+              article.innerHTML = `
+                  <a href="${item.link}" target="_blank">${item.title}</a>
+                  <span class="rss-source">${sourceName}</span>
+              `;
+              container.appendChild(article);
+          });
+      }
+
+      // Define RSS feed URLs
       const artNewsFeeds = [
-        'https://www.artnews.com/feed/',
-        'https://www.artforum.com/index.rss',
-        'https://www.artsy.net/rss/news',
-        'http://fadmagazine.com/feed',
-        'https://www.mutualart.com/rss/news',
-        'https://www.artlyst.com/feed/',
-        'https://www.widewalls.ch/feed/',
-        'http://www.blouinartinfo.com/rss/index',
-        'https://www.theartnewspaper.com/rss',
-        'https://www.apollo-magazine.com/feed/'
+          'https://www.artnews.com/feed/',
+          'https://www.artforum.com/index.rss',
+          'https://www.artsy.net/rss/news',
+          'http://fadmagazine.com/feed',
+          'https://www.mutualart.com/rss/news',
+          'https://www.artlyst.com/feed/',
+          'https://www.widewalls.ch/feed/',
+          'http://www.blouinartinfo.com/rss/index',
+          'https://www.theartnewspaper.com/rss',
+          'https://www.apollo-magazine.com/feed/'
       ];
 
-      // World News Feeds
       const worldNewsFeeds = [
-        'http://feeds.bbci.co.uk/news/world/rss.xml',
-        'https://www.npr.org/rss/rss.php?id=1004', // NPR World News
-        'https://www.aljazeera.com/xml/rss/all.xml'  // Al Jazeera
+          'http://feeds.bbci.co.uk/news/world/rss.xml',
+          'https://www.npr.org/rss/rss.php?id=1004',
+          'https://www.aljazeera.com/xml/rss/all.xml'
       ];
 
     const artMarketNewsFeeds = [
@@ -151,57 +175,37 @@
         'https://www.aestheticamagazine.com/feed/'  // Aesthetica Magazine
     ];
 
+      // Function to load all aggregated feeds and display them
+      function loadAggregatedFeeds() {
+          // Fetch and display Art News
+          Promise.all(artNewsFeeds.map(fetchRSSFeed))
+              .then(results => {
+                  const allItems = results.flat();
+                  const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                  displayFeedItems(sortedItems.slice(0, 10), 'art-news-feed');
+              });
 
-      // Multiple RSS Feeds
-      function fetchMultipleFeeds(feeds, elementId) {
-        const fetchPromises = feeds.map(url =>
-          fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
-            .then(response => response.json())
-            .then(data => {
-              if (data && data.items) {
-                return data.items;
-              } else {
-                console.warn(`Feed did not load correctly: ${url}`);
-                return [];
-              }
-            })
-            .catch(error => {
-              console.error(`Error fetching feed ${url}:`, error);
-              return [];
-            })
-        );
+          // Fetch and display World News
+          Promise.all(worldNewsFeeds.map(fetchRSSFeed))
+              .then(results => {
+                  const allItems = results.flat();
+                  const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                  displayFeedItems(sortedItems.slice(0, 10), 'world-news-feed');
+              });
 
-        Promise.all(fetchPromises)
-          .then(results => {
-            const allItems = results.flat();
-            const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            displayFeedItems(sortedItems.slice(0, 10), elementId); // Display top 10
-          });
+        // Fetch and display Art Market News
+        Promise.all(artMarketNewsFeeds.map(fetchRSSFeed))
+            .then(results => {
+                const allItems = results.flat();
+                const sortedItems = allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                displayFeedItems(sortedItems.slice(0, 10), 'art-market-feed');
+            });
       }
 
-    function displayFeedItems(items, containerId) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = ''; // Clear existing content
-
-        if (items.length === 0) {
-            container.innerHTML = '<li>No items to display.</li>';
-            return;
-        }
-
-        items.forEach(item => {
-            const article = document.createElement('li');
-            article.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
-            container.appendChild(article);
-        });
-    }
-
-      // Load everything
+      // Run everything
       document.addEventListener('DOMContentLoaded', function() {
           updateDate();
-
-        fetchMultipleFeeds(artNewsFeeds, 'art-news-feed');
-        fetchMultipleFeeds(worldNewsFeeds, 'world-news-feed');
-        fetchMultipleFeeds(artMarketNewsFeeds, 'art-market-feed');
+          loadAggregatedFeeds();
       });
     </script>
 </body>
