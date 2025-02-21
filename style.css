@@ -60,7 +60,7 @@ main {
 
 .column h2 { font-weight: 400;
     color: #000000;
-    margin-top: 0;
+    margin-top: 0;  font-size: 0.6rem; line-height: 0.3rem;
 }
 
 .column ul {
@@ -76,7 +76,7 @@ main {
 
 .column ul li a {
     display: flex;
-    align-items: center;
+    align-items: center; font-weight: 300;
 }
 
 .column ul li i {
