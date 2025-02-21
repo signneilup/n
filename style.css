@@ -23,14 +23,14 @@ a:hover {
 /* Header */
 header {
     background-color: #101010;
-    color: #ffffff;
+    color: #dddddd;
     padding: 20px 0;font-weight: 400; 
     text-align: center;
 }
 
 header h1 {
-    margin: 0;font-weight: 400; 
-    font-size: 2.5rem; /* Adjust size for better readability */
+    margin: 0;font-weight: 200; 
+    font-size: 2.8rem; /* Adjust size for better readability */
 }
 
 header p {
