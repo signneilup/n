@@ -77,9 +77,9 @@ main {
 /* Footer */
 footer {
     background-color: #202020;
-    color: #ffffff;
+    color: #aaaaaa;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 0; font-size: 8px; 
 }
 
 /* Responsive Design */
