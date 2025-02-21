@@ -5,51 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Start Page</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Varela', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>N3ILATR0N</h1>
-        <p>Start</p>
+        <div id="info-container">
+            <div id="current-date"></div>
+            <div id="weather-conditions"></div>
+        </div>
     </header>
 
     <main>
-    <div class="container">
-        <div class="column">
-            <h2>AI & Productivity</h2>
-            <ul>
-                <li><a href="https://www.perplexity.ai" target="_blank">Perplexity AI</a></li>
-                <li><a href="https://notebooklm.google.com" target="_blank">NotebookLM</a></li>
-                <li><a href="https://chatgpt.com" target="_blank">ChatGPT</a></li>
-                <li><a href="https://labs.google/fx/tools/image-fx#" target="_blank">Google ImageFX</a></li>
-            </ul>
-        </div>
-
-        <div class="column">
-            <h2>Entertainment & Media</h2>
-            <ul>
-                <li><a href="https://music.youtube.com" target="_blank">YouTube Music</a></li>
-                <li><a href="https://youtube.com" target="_blank">YouTube</a></li>
-                <li><a href="http://192.168.86.247:8096" target="_blank">My Emby Site</a></li>
-                <li><a href="https://www.pbs.org/newshour/" target="_blank">PBS NewsHour</a></li>
-            </ul>
-        </div>
-
-        <div class="column">
-            <h2>Home & Reference</h2>
-            <ul>
-                <li><a href="https://home.google.com/u/0/home/1-477d06164763f1b2d1aeecb5ed81bc07d959df81bf0cbbd97b9d1cea9562ef9a/cameras/grid" target="_blank">Google Home Cameras</a></li>
-                <li><a href="https://gmail.com" target="_blank">Gmail</a></li>
-                <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
-                <li><a href="https://en.wikipedia.org/" target="_blank">Wikipedia</a></li>
-                <li><a href="https://codebeautify.org" target="_blank">Code Beautify</a></li>
-               <li><a href="https://neil-ledoux.com" target="_blank">Neil-LeDoux.com</a></li>
-            </ul>
-        </div>
-    </div>
+        <!-- Your existing main content here -->
     </main>
 
     <footer>
         <p>&copy; 2025 Neil. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Current Date
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateDate();
+        setInterval(updateDate, 1000 * 60); // Update every minute
+
+        // Weather Conditions (placeholder - you'll need to use a weather API for real data)
+        document.getElementById('weather-conditions').textContent = 'Weather data unavailable';
+
+        // To get real weather data, you'd need to use a weather API. For example:
+        // fetch('https://api.openweathermap.org/data/2.5/weather?q=YourCity&appid=YourAPIKey')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         document.getElementById('weather-conditions').textContent = `${data.weather[0].main}, ${data.main.temp}°C`;
+        //     })
+        //     .catch(error => console.error('Error fetching weather:', error));
+    </script>
 </body>
 </html>
